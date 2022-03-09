@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
+import 'dart:math';
 
 class Trabalho2Controller extends GetxController {
   final integral = [
@@ -137,5 +138,41 @@ class Trabalho2Controller extends GetxController {
     }
 
     integral.value = equacoes;
+
+    print(getResultadoFuncao(a.value));
+  }
+
+  double getResultadoFuncao(double value) {
+    bool divisao = false;
+    num dividendo = 0.0;
+    double resultado = 0;
+    for (var j = 0; j < integral.length; j++) {
+      var valor = integral[j]['x'] == ''
+          ? (integral[j]['numero'] == '' ? 0 : int.parse(integral[j]['numero']!))
+          : (integral[j]['numero'] == '' ? 1 : int.parse(integral[j]['numero']!)) *
+              pow(value, integral[j]['expoente'] == '' ? 1 : int.parse(integral[j]['expoente']!));
+
+      if (integral[j]['operacao'] == '-') {
+        valor *= -1;
+        resultado += valor;
+      } else if (integral[j]['operacao'] == '+') {
+        resultado += valor;
+      } else if (integral[j]['operacao'] == '/') {
+        valor = dividendo / valor;
+        valor = valor == double.infinity ? 0 : valor;
+        resultado += valor;
+        dividendo = 0;
+        divisao = false;
+      } else if (j < integral.length - 1) {
+        if (integral[j + 1]['operacao'] == '/') {
+          dividendo = valor;
+          divisao = true;
+        }
+      } else {
+        resultado += valor;
+      }
+    }
+
+    return resultado;
   }
 }
