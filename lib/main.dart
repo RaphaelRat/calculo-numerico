@@ -17,11 +17,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      theme: ThemeData(primaryColor: Colors.deepPurple, brightness: Brightness.dark, primarySwatch: Colors.deepPurple),
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
+      initialRoute: '/home',
       getPages: [
-        GetPage(name: '/', page: () => const HomePage()),
+        GetPage(name: '/home', page: () => const HomePage()),
         GetPage(name: '/trabalho1', page: () => const Trabalho1()),
         GetPage(name: '/trabalho2', page: () => const Trabalho2()),
       ],
