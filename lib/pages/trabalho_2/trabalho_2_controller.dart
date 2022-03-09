@@ -143,7 +143,6 @@ class Trabalho2Controller extends GetxController {
   }
 
   double getResultadoFuncao(double value) {
-    bool divisao = false;
     num dividendo = 0.0;
     double resultado = 0;
     for (var j = 0; j < integral.length; j++) {
@@ -162,11 +161,9 @@ class Trabalho2Controller extends GetxController {
         valor = valor == double.infinity ? 0 : valor;
         resultado += valor;
         dividendo = 0;
-        divisao = false;
       } else if (j < integral.length - 1) {
         if (integral[j + 1]['operacao'] == '/') {
           dividendo = valor;
-          divisao = true;
         }
       } else {
         resultado += valor;
