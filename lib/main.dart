@@ -1,3 +1,4 @@
+import 'package:calc_numerico/pages/trabalho_2/trabalho_2_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -20,7 +21,13 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(name: '/home', page: () => const HomePage()),
         GetPage(name: '/trabalho1', page: () => const Trabalho1()),
-        GetPage(name: '/trabalho2', page: () => const Trabalho2()),
+        GetPage(
+          name: '/trabalho2',
+          page: () => const Trabalho2(),
+          binding: BindingsBuilder(
+            () => Get.lazyPut<Trabalho2Controller>(() => Trabalho2Controller()),
+          ),
+        ),
       ],
     );
   }

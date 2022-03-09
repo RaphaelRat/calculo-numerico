@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class Trabalho2 extends StatelessWidget {
+import './trabalho_2_controller.dart';
+
+class Trabalho2 extends GetView<Trabalho2Controller> {
   const Trabalho2({Key? key}) : super(key: key);
 
   @override
