@@ -70,7 +70,6 @@ class Trabalho2 extends GetView<Trabalho2Controller> {
                             ),
                     ),
                   ),
-                  Obx(() => Text('Funcao: ${controller.funcao.value}\na: ${controller.a.value}\nb: ${controller.b.value}\nn: ${controller.n.value}')),
                   const SizedBox(height: 12),
                   const Text('Entre com a integral:', style: TextStyle(fontWeight: FontWeight.bold)),
                   const SizedBox(height: 12),
