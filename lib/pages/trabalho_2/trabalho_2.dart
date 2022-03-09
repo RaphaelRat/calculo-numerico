@@ -27,7 +27,7 @@ class Trabalho2 extends GetView<Trabalho2Controller> {
                     () => Container(
                       margin: const EdgeInsets.symmetric(vertical: 4),
                       width: double.infinity,
-                      height: 80,
+                      height: 112,
                       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
@@ -48,9 +48,15 @@ class Trabalho2 extends GetView<Trabalho2Controller> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset('assets/integral.png'),
+                                Column(
+                                  children: [
+                                    Text(controller.a.value),
+                                    SizedBox(height: 54, child: Image.asset('assets/integral.png')),
+                                    Text(controller.b.value),
+                                  ],
+                                ),
                                 Text(
-                                  controller.integral.value,
+                                  '${controller.funcao.value} dx',
                                   style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
