@@ -18,7 +18,7 @@ Esse projeto foi desenvolvido inicialmente como resposta para um trabalho propos
   
   * Mostrar todos os passos dados, como se tivesse feito manualmente no Excel;
   * Trazer mais do que uma raiz (se a função tiver);
-  * Botão para alterar entre os modos Light / Dark;
+  * ✔ Botão para alterar entre os modos Light / Dark;
   * Algumas funcionalidades visuais de alteração de texto;
   * Mensagens de erro;
   * Validação na entrada de texto;
