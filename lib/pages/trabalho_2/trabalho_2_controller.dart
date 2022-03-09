@@ -90,7 +90,7 @@ class Trabalho2Controller extends GetxController {
     // print('s: $s \t Soma: $soma');
     Get.defaultDialog(
       content: Text('Soma: ${soma.toStringAsFixed(4)}\nS(h$n): ${s.toStringAsFixed(4)}'),
-      title: 'Regra de Simpon',
+      title: 'Regra de Simpson',
       cancel: TextButton(
         style: ButtonStyle(
           overlayColor: MaterialStateColor.resolveWith((states) => Colors.transparent),
