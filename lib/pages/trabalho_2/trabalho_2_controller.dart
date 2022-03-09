@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Trabalho2Controller extends GetxController {
-  final integral = '2x+1/x'.obs;
-  final funcao = '2x+1/x'.obs;
+  final integral = [
+    {'numero': '2', 'expoente': '', 'x': 'x', 'operacao': ''},
+    {'numero': '1', 'expoente': '', 'x': '', 'operacao': '+'},
+    {'numero': '', 'expoente': '', 'x': 'x', 'operacao': '/'},
+  ].obs;
   final a = 1.0.obs;
   final b = 2.0.obs;
   final n = 10.obs;
@@ -34,7 +37,6 @@ class Trabalho2Controller extends GetxController {
       print(' i: $i\t xi: $xi\t f(xi): $fxi\t ci: $ci\t ci*f(xi)$ciFxi');
     }
     t = h! / 2 * soma;
-    print('t: $t \t Soma: $soma');
     Get.defaultDialog(
       content: Text('Soma: ${soma.toStringAsFixed(4)}\nT(h$n): ${t.toStringAsFixed(4)}'),
       title: 'Regra dos Trapézios',
@@ -46,6 +48,52 @@ class Trabalho2Controller extends GetxController {
         onPressed: () => Get.back(),
       ),
     );
+  }
+
+  void createIntegral(String value) {
+    bool exp = false;
+    Map<String, String> parteDaEquacao = {'numero': '', 'expoente': '', 'x': '', 'operacao': ''};
+    List<Map<String, String>> equacoes = [];
+
+    // if (value.length > 1 && (value[value.length - 1] == '+' || value[value.length - 1] == '-')) {
+    //   if (value[value.length - 2] == '+' || value[value.length - 2] == '-') {
+    //     integral.value = value.substring(0, value.length - 2) + value.substring(value.length - 1);
+    //   }
+    // } else {
+    //   integral.value = value;
+    // }
+
+    for (int i = 0; i < value.length; i++) {
+      if (value[i] != 'x' && value[i] != 'X' && value[i] != '+' && value[i] != '/' && value[i] != '-') {
+        if (exp) {
+          parteDaEquacao['expoente'] = parteDaEquacao['expoente']! + value[i];
+        } else {
+          parteDaEquacao['numero'] = parteDaEquacao['numero']! + value[i];
+        }
+      } else if (value[i] == 'x' || value[i] == 'X') {
+        parteDaEquacao['x'] = 'x';
+        exp = true;
+      } else if (value[i] == '-' || value[i] == '+' || value[i] == '/') {
+        if (i == 0) {
+          parteDaEquacao['operacao'] = value[i];
+        } else {
+          equacoes.add(parteDaEquacao);
+          parteDaEquacao = {'numero': '', 'expoente': '', 'x': '', 'operacao': value[i]};
+          exp = false;
+        }
+      }
+
+      //Sempre atualizar
+      if (value.length - 1 == i) {
+        equacoes.add(parteDaEquacao);
+        parteDaEquacao = {'numero': '', 'expoente': '', 'x': '', 'operacao': value[i]};
+        exp = false;
+      }
+    }
+
+    print(equacoes);
+    integral.value = equacoes;
+    print(integral.value);
   }
 
   void simpsonClicked() {

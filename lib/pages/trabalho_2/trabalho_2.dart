@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import './trabalho_2_controller.dart';
@@ -34,7 +35,7 @@ class Trabalho2 extends GetView<Trabalho2Controller> {
                         color: Colors.grey.shade300,
                         border: Border.all(width: 1, color: Get.isDarkMode ? Colors.white : Theme.of(context).focusColor),
                       ),
-                      child: controller.integral.value.isEmpty
+                      child: controller.integral.isEmpty
                           ? const Center(
                               child: Text(
                                 'Sua integral aqui',
@@ -67,13 +68,32 @@ class Trabalho2 extends GetView<Trabalho2Controller> {
                                     ),
                                   ],
                                 ),
-                                Text(
-                                  '${controller.funcao.value} dx',
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
+                                Wrap(children: [
+                                  for (int i = 0; i < controller.integral.length; i++) ...[
+                                    Text(
+                                      controller.integral[i]['operacao'] ?? '',
+                                      style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      controller.integral[i]['numero'] ?? '',
+                                      style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      controller.integral[i]['x'] ?? '',
+                                      style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(controller.integral[i]['expoente'] ?? '',
+                                        style: const TextStyle(fontSize: 8, color: Colors.black, fontWeight: FontWeight.bold)),
+                                  ],
+                                ]),
+                                // Text(
+                                //   '${controller.integral.toString()}  dx',
+                                //   style: const TextStyle(
+                                //     color: Colors.black,
+                                //     fontWeight: FontWeight.bold,
+                                //   ),
+                                // ),
+                                const Text('   dx', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
                                 const SizedBox(width: 16),
                                 VerticalDivider(color: Get.isDarkMode ? Colors.white : Theme.of(context).focusColor),
                                 const SizedBox(width: 16),
@@ -89,9 +109,9 @@ class Trabalho2 extends GetView<Trabalho2Controller> {
                     ),
                   ),
                   const SizedBox(height: 12),
-                  const Text('Entre com a integral:', style: TextStyle(fontWeight: FontWeight.bold)),
+                  const Text('Entre com a função:', style: TextStyle(fontWeight: FontWeight.bold)),
                   const SizedBox(height: 12),
-                  _myTextField(context, hintText: '2x+1/x', onChanged: (value) => controller.funcao.value = value, isOnlyNumber: false),
+                  _myTextField(context, hintText: '2x+1/x', onChanged: (value) => controller.createIntegral(value), isOnlyNumber: false),
                   const SizedBox(height: 12),
                   const Text('Entre com o intervalo:', style: TextStyle(fontWeight: FontWeight.bold)),
                   const SizedBox(height: 12),
@@ -128,9 +148,7 @@ class Trabalho2 extends GetView<Trabalho2Controller> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       ElevatedButton(
-                        onPressed: () {
-                          controller.trapeziosClicked();
-                        },
+                        onPressed: controller.trapeziosClicked,
                         child: const Text('Regra dos Trapézios'),
                         style: ButtonStyle(
                           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -141,9 +159,7 @@ class Trabalho2 extends GetView<Trabalho2Controller> {
                         ),
                       ),
                       ElevatedButton(
-                        onPressed: () {
-                          controller.simpsonClicked();
-                        },
+                        onPressed: controller.simpsonClicked,
                         child: const Text('Regra do Simpson'),
                         style: ButtonStyle(
                           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -169,6 +185,7 @@ class Trabalho2 extends GetView<Trabalho2Controller> {
       cursorColor: Theme.of(context).focusColor,
       cursorWidth: 1.0,
       keyboardType: isOnlyNumber ? TextInputType.number : TextInputType.text,
+      inputFormatters: isOnlyNumber ? [] : [FilteringTextInputFormatter.allow(RegExp(r'[0-9-/+xX]'))],
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
         focusedBorder: OutlineInputBorder(
