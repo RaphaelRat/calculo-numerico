@@ -60,10 +60,28 @@ class Trabalho2 extends GetView<Trabalho2Controller> {
                             ),
                     ),
                   ),
+                  Obx(() => Text('Funcao: ${controller.funcao.value}\na: ${controller.a.value}\nb: ${controller.b.value}')),
                   const SizedBox(height: 12),
                   const Text('Entre com a integral:', style: TextStyle(fontWeight: FontWeight.bold)),
                   const SizedBox(height: 12),
                   _myTextField(context, hintText: '2x+1/x', onChanged: (value) => controller.funcao.value = value),
+                  const SizedBox(height: 12),
+                  const Text('Entre com o intervalo:', style: TextStyle(fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(right: 8),
+                        child: Text('a:', style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                      Expanded(child: _myTextField(context, hintText: '0', onChanged: (value) => controller.a.value = value)),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        child: Text('b:', style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                      Expanded(child: _myTextField(context, hintText: '1', onChanged: (value) => controller.b.value = value)),
+                    ],
+                  ),
                 ],
               ),
             ),
