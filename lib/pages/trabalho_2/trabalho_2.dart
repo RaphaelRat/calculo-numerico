@@ -111,7 +111,22 @@ class Trabalho2 extends GetView<Trabalho2Controller> {
                   const SizedBox(height: 12),
                   const Text('Entre com a função:', style: TextStyle(fontWeight: FontWeight.bold)),
                   const SizedBox(height: 12),
-                  _myTextField(context, hintText: '2x+1/x', onChanged: (value) => controller.createIntegral(value), isOnlyNumber: false),
+                  _myTextField(
+                    context,
+                    hintText: '2x+1/x',
+                    onChanged: (value) {
+                      if (value.length > 1 && (value[value.length - 1] == '+' || value[value.length - 1] == '-')) {
+                        if (value[value.length - 2] == '+' || value[value.length - 2] == '-') {
+                          controller.funcaoController.text = value.substring(0, value.length - 2) + value.substring(value.length - 1);
+                          controller.funcaoController.selection =
+                              TextSelection.fromPosition(TextPosition(offset: controller.funcaoController.text.length));
+                        }
+                      }
+                      controller.createIntegral();
+                    },
+                    isOnlyNumber: false,
+                    controller: controller.funcaoController,
+                  ),
                   const SizedBox(height: 12),
                   const Text('Entre com o intervalo:', style: TextStyle(fontWeight: FontWeight.bold)),
                   const SizedBox(height: 12),
@@ -180,8 +195,15 @@ class Trabalho2 extends GetView<Trabalho2Controller> {
     );
   }
 
-  TextField _myTextField(BuildContext context, {Function(String value)? onChanged, String? hintText, bool isOnlyNumber = true}) {
+  TextField _myTextField(
+    BuildContext context, {
+    Function(String value)? onChanged,
+    String? hintText,
+    bool isOnlyNumber = true,
+    TextEditingController? controller,
+  }) {
     return TextField(
+      controller: controller,
       cursorColor: Theme.of(context).focusColor,
       cursorWidth: 1.0,
       keyboardType: isOnlyNumber ? TextInputType.number : TextInputType.text,

@@ -11,6 +11,13 @@ class Trabalho2Controller extends GetxController {
   final b = 2.0.obs;
   final n = 10.obs;
   double? h;
+  final funcaoController = TextEditingController();
+
+  @override
+  void onClose() {
+    funcaoController.dispose();
+    super.onClose();
+  }
 
   void trapeziosClicked() {
     h = (b.value - a.value) / n.value;
@@ -50,43 +57,39 @@ class Trabalho2Controller extends GetxController {
     );
   }
 
-  void createIntegral(String value) {
+  void createIntegral() {
     bool exp = false;
     Map<String, String> parteDaEquacao = {'numero': '', 'expoente': '', 'x': '', 'operacao': ''};
     List<Map<String, String>> equacoes = [];
 
-    // if (value.length > 1 && (value[value.length - 1] == '+' || value[value.length - 1] == '-')) {
-    //   if (value[value.length - 2] == '+' || value[value.length - 2] == '-') {
-    //     integral.value = value.substring(0, value.length - 2) + value.substring(value.length - 1);
-    //   }
-    // } else {
-    //   integral.value = value;
-    // }
-
-    for (int i = 0; i < value.length; i++) {
-      if (value[i] != 'x' && value[i] != 'X' && value[i] != '+' && value[i] != '/' && value[i] != '-') {
+    for (int i = 0; i < funcaoController.text.length; i++) {
+      if (funcaoController.text[i] != 'x' &&
+          funcaoController.text[i] != 'X' &&
+          funcaoController.text[i] != '+' &&
+          funcaoController.text[i] != '/' &&
+          funcaoController.text[i] != '-') {
         if (exp) {
-          parteDaEquacao['expoente'] = parteDaEquacao['expoente']! + value[i];
+          parteDaEquacao['expoente'] = parteDaEquacao['expoente']! + funcaoController.text[i];
         } else {
-          parteDaEquacao['numero'] = parteDaEquacao['numero']! + value[i];
+          parteDaEquacao['numero'] = parteDaEquacao['numero']! + funcaoController.text[i];
         }
-      } else if (value[i] == 'x' || value[i] == 'X') {
+      } else if (funcaoController.text[i] == 'x' || funcaoController.text[i] == 'X') {
         parteDaEquacao['x'] = 'x';
         exp = true;
-      } else if (value[i] == '-' || value[i] == '+' || value[i] == '/') {
+      } else if (funcaoController.text[i] == '-' || funcaoController.text[i] == '+' || funcaoController.text[i] == '/') {
         if (i == 0) {
-          parteDaEquacao['operacao'] = value[i];
+          parteDaEquacao['operacao'] = funcaoController.text[i];
         } else {
           equacoes.add(parteDaEquacao);
-          parteDaEquacao = {'numero': '', 'expoente': '', 'x': '', 'operacao': value[i]};
+          parteDaEquacao = {'numero': '', 'expoente': '', 'x': '', 'operacao': funcaoController.text[i]};
           exp = false;
         }
       }
 
       //Sempre atualizar
-      if (value.length - 1 == i) {
+      if (funcaoController.text.length - 1 == i) {
         equacoes.add(parteDaEquacao);
-        parteDaEquacao = {'numero': '', 'expoente': '', 'x': '', 'operacao': value[i]};
+        parteDaEquacao = {'numero': '', 'expoente': '', 'x': '', 'operacao': funcaoController.text[i]};
         exp = false;
       }
     }
