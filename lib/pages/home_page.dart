@@ -18,18 +18,21 @@ class HomePage extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  content: const Text(
+              Get.defaultDialog(
+                titlePadding: const EdgeInsets.only(top: 18),
+                title: 'DEC7142',
+                content: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
                     'App desenvolvido por Raphael Abreu para a disciplina de Cálculo Numérico em Computadores da UFSC (Universidade Federal de Santa Catarina)',
                   ),
-                  actions: [
-                    TextButton(
-                      onPressed: Get.back,
-                      child: const Text('Fechar'),
-                    ),
-                  ],
+                ),
+                cancel: TextButton(
+                  style: ButtonStyle(
+                    overlayColor: MaterialStateColor.resolveWith((states) => Colors.transparent),
+                  ),
+                  child: const Text('Fechar'),
+                  onPressed: () => Get.back(),
                 ),
               );
             },

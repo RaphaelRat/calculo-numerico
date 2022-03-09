@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -36,6 +35,17 @@ class Trabalho2Controller extends GetxController {
     }
     t = h! / 2 * soma;
     print('t: $t \t Soma: $soma');
+    Get.defaultDialog(
+      content: Text('Soma: ${soma.toStringAsFixed(4)}\nT(h$n): ${t.toStringAsFixed(4)}'),
+      title: 'Regra dos Trapézios',
+      cancel: TextButton(
+        style: ButtonStyle(
+          overlayColor: MaterialStateColor.resolveWith((states) => Colors.transparent),
+        ),
+        child: const Text('Fechar'),
+        onPressed: () => Get.back(),
+      ),
+    );
   }
 
   void simpsonClicked() {
@@ -70,7 +80,13 @@ class Trabalho2Controller extends GetxController {
     Get.defaultDialog(
       content: Text('Soma: ${soma.toStringAsFixed(4)}\nS(h$n): ${s.toStringAsFixed(4)}'),
       title: 'Regra de Simpon',
-      textCancel: 'Fechar',
+      cancel: TextButton(
+        style: ButtonStyle(
+          overlayColor: MaterialStateColor.resolveWith((states) => Colors.transparent),
+        ),
+        child: const Text('Fechar'),
+        onPressed: () => Get.back(),
+      ),
     );
   }
 }
