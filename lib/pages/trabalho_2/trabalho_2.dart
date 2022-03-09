@@ -60,7 +60,7 @@ class Trabalho2 extends GetView<Trabalho2Controller> {
                             ),
                     ),
                   ),
-                  Obx(() => Text('Funcao: ${controller.funcao.value}\na: ${controller.a.value}\nb: ${controller.b.value}')),
+                  Obx(() => Text('Funcao: ${controller.funcao.value}\na: ${controller.a.value}\nb: ${controller.b.value}\nn: ${controller.n.value}')),
                   const SizedBox(height: 12),
                   const Text('Entre com a integral:', style: TextStyle(fontWeight: FontWeight.bold)),
                   const SizedBox(height: 12),
@@ -80,6 +80,38 @@ class Trabalho2 extends GetView<Trabalho2Controller> {
                         child: Text('b:', style: TextStyle(fontWeight: FontWeight.bold)),
                       ),
                       Expanded(child: _myTextField(context, hintText: '1', onChanged: (value) => controller.b.value = value)),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  const Text('Entre com o valor de n:', style: TextStyle(fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 12),
+                  _myTextField(context, hintText: '10', onChanged: (value) => controller.n.value = value),
+                  const SizedBox(height: 12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {},
+                        child: const Text('Regra dos Trapézios'),
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                            ),
+                          ),
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {},
+                        child: const Text('Regra do Simpson'),
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ],
