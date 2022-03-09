@@ -57,48 +57,6 @@ class Trabalho2Controller extends GetxController {
     );
   }
 
-  void createIntegral() {
-    bool exp = false;
-    Map<String, String> parteDaEquacao = {'numero': '', 'expoente': '', 'x': '', 'operacao': ''};
-    List<Map<String, String>> equacoes = [];
-
-    for (int i = 0; i < funcaoController.text.length; i++) {
-      if (funcaoController.text[i] != 'x' &&
-          funcaoController.text[i] != 'X' &&
-          funcaoController.text[i] != '+' &&
-          funcaoController.text[i] != '/' &&
-          funcaoController.text[i] != '-') {
-        if (exp) {
-          parteDaEquacao['expoente'] = parteDaEquacao['expoente']! + funcaoController.text[i];
-        } else {
-          parteDaEquacao['numero'] = parteDaEquacao['numero']! + funcaoController.text[i];
-        }
-      } else if (funcaoController.text[i] == 'x' || funcaoController.text[i] == 'X') {
-        parteDaEquacao['x'] = 'x';
-        exp = true;
-      } else if (funcaoController.text[i] == '-' || funcaoController.text[i] == '+' || funcaoController.text[i] == '/') {
-        if (i == 0) {
-          parteDaEquacao['operacao'] = funcaoController.text[i];
-        } else {
-          equacoes.add(parteDaEquacao);
-          parteDaEquacao = {'numero': '', 'expoente': '', 'x': '', 'operacao': funcaoController.text[i]};
-          exp = false;
-        }
-      }
-
-      //Sempre atualizar
-      if (funcaoController.text.length - 1 == i) {
-        equacoes.add(parteDaEquacao);
-        parteDaEquacao = {'numero': '', 'expoente': '', 'x': '', 'operacao': funcaoController.text[i]};
-        exp = false;
-      }
-    }
-
-    print(equacoes);
-    integral.value = equacoes;
-    print(integral.value);
-  }
-
   void simpsonClicked() {
     h = (b.value - a.value) / n.value;
     var xi = a.value;
@@ -139,5 +97,45 @@ class Trabalho2Controller extends GetxController {
         onPressed: () => Get.back(),
       ),
     );
+  }
+
+  void createIntegral() {
+    bool exp = false;
+    Map<String, String> parteDaEquacao = {'numero': '', 'expoente': '', 'x': '', 'operacao': ''};
+    List<Map<String, String>> equacoes = [];
+
+    for (int i = 0; i < funcaoController.text.length; i++) {
+      if (funcaoController.text[i] != 'x' &&
+          funcaoController.text[i] != 'X' &&
+          funcaoController.text[i] != '+' &&
+          funcaoController.text[i] != '/' &&
+          funcaoController.text[i] != '-') {
+        if (exp) {
+          parteDaEquacao['expoente'] = parteDaEquacao['expoente']! + funcaoController.text[i];
+        } else {
+          parteDaEquacao['numero'] = parteDaEquacao['numero']! + funcaoController.text[i];
+        }
+      } else if (funcaoController.text[i] == 'x' || funcaoController.text[i] == 'X') {
+        parteDaEquacao['x'] = 'x';
+        exp = true;
+      } else if (funcaoController.text[i] == '-' || funcaoController.text[i] == '+' || funcaoController.text[i] == '/') {
+        if (i == 0) {
+          parteDaEquacao['operacao'] = funcaoController.text[i];
+        } else {
+          equacoes.add(parteDaEquacao);
+          parteDaEquacao = {'numero': '', 'expoente': '', 'x': '', 'operacao': funcaoController.text[i]};
+          exp = false;
+        }
+      }
+
+      //Sempre atualizar
+      if (funcaoController.text.length - 1 == i) {
+        equacoes.add(parteDaEquacao);
+        parteDaEquacao = {'numero': '', 'expoente': '', 'x': '', 'operacao': funcaoController.text[i]};
+        exp = false;
+      }
+    }
+
+    integral.value = equacoes;
   }
 }
