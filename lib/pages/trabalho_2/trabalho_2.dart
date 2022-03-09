@@ -32,7 +32,7 @@ class Trabalho2 extends GetView<Trabalho2Controller> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
                         color: Colors.grey.shade300,
-                        border: Border.all(width: 1, color: Theme.of(context).focusColor),
+                        border: Border.all(width: 1, color: Get.isDarkMode ? Colors.white : Theme.of(context).focusColor),
                       ),
                       child: controller.integral.value.isEmpty
                           ? const Center(
@@ -50,9 +50,21 @@ class Trabalho2 extends GetView<Trabalho2Controller> {
                               children: [
                                 Column(
                                   children: [
-                                    Text(controller.a.value),
+                                    Text(
+                                      controller.b.value.toString(),
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
                                     SizedBox(height: 54, child: Image.asset('assets/integral.png')),
-                                    Text(controller.b.value),
+                                    Text(
+                                      controller.a.value.toString(),
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
                                   ],
                                 ),
                                 Text(
@@ -63,9 +75,15 @@ class Trabalho2 extends GetView<Trabalho2Controller> {
                                   ),
                                 ),
                                 const SizedBox(width: 16),
-                                VerticalDivider(color: Theme.of(context).focusColor),
+                                VerticalDivider(color: Get.isDarkMode ? Colors.white : Theme.of(context).focusColor),
                                 const SizedBox(width: 16),
-                                Text('n = ${controller.n.value}'),
+                                Text(
+                                  'n = ${controller.n.value}',
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ],
                             ),
                     ),
@@ -73,7 +91,7 @@ class Trabalho2 extends GetView<Trabalho2Controller> {
                   const SizedBox(height: 12),
                   const Text('Entre com a integral:', style: TextStyle(fontWeight: FontWeight.bold)),
                   const SizedBox(height: 12),
-                  _myTextField(context, hintText: '2x+1/x', onChanged: (value) => controller.funcao.value = value),
+                  _myTextField(context, hintText: '2x+1/x', onChanged: (value) => controller.funcao.value = value, isOnlyNumber: false),
                   const SizedBox(height: 12),
                   const Text('Entre com o intervalo:', style: TextStyle(fontWeight: FontWeight.bold)),
                   const SizedBox(height: 12),
@@ -83,24 +101,36 @@ class Trabalho2 extends GetView<Trabalho2Controller> {
                         padding: EdgeInsets.only(right: 8),
                         child: Text('a:', style: TextStyle(fontWeight: FontWeight.bold)),
                       ),
-                      Expanded(child: _myTextField(context, hintText: '0', onChanged: (value) => controller.a.value = value)),
+                      Expanded(
+                        child: _myTextField(context, hintText: '1', onChanged: (value) {
+                          controller.a.value = value.isEmpty ? 1 : double.parse(value);
+                        }),
+                      ),
                       const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8),
                         child: Text('b:', style: TextStyle(fontWeight: FontWeight.bold)),
                       ),
-                      Expanded(child: _myTextField(context, hintText: '1', onChanged: (value) => controller.b.value = value)),
+                      Expanded(
+                        child: _myTextField(context, hintText: '2', onChanged: (value) {
+                          controller.b.value = value.isEmpty ? 2 : double.parse(value);
+                        }),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 12),
                   const Text('Entre com o valor de n:', style: TextStyle(fontWeight: FontWeight.bold)),
                   const SizedBox(height: 12),
-                  _myTextField(context, hintText: '10', onChanged: (value) => controller.n.value = value),
+                  _myTextField(context, hintText: '10', onChanged: (value) {
+                    controller.n.value = value.isEmpty ? 10 : int.parse(value);
+                  }),
                   const SizedBox(height: 12),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          controller.trapeziosClicked();
+                        },
                         child: const Text('Regra dos Trapézios'),
                         style: ButtonStyle(
                           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -132,8 +162,11 @@ class Trabalho2 extends GetView<Trabalho2Controller> {
     );
   }
 
-  TextField _myTextField(BuildContext context, {Function(String value)? onChanged, String? hintText}) {
+  TextField _myTextField(BuildContext context, {Function(String value)? onChanged, String? hintText, bool isOnlyNumber = true}) {
     return TextField(
+      cursorColor: Theme.of(context).focusColor,
+      cursorWidth: 1.0,
+      keyboardType: isOnlyNumber ? TextInputType.number : TextInputType.text,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
         focusedBorder: OutlineInputBorder(
