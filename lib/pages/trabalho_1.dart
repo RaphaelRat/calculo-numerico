@@ -188,20 +188,28 @@ class _Trabalho1State extends State<Trabalho1> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          TextButton(
+                          ElevatedButton(
                             child: const Text('Falsa Posição'),
                             onPressed: () => calcularFalsaPosicao(),
                             style: ButtonStyle(
-                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(18.0), side: BorderSide(color: Theme.of(context).primaryColor)))),
+                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                ),
+                              ),
+                            ),
                           ),
                           const SizedBox(width: 20),
-                          TextButton(
+                          ElevatedButton(
                             child: const Text('Newton'),
                             onPressed: () => calcularNewton(),
                             style: ButtonStyle(
-                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(18.0), side: BorderSide(color: Theme.of(context).primaryColor)))),
+                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                ),
+                              ),
+                            ),
                           ),
                         ],
                       ),
