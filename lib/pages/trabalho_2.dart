@@ -5,6 +5,8 @@ class Trabalho2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(title: const Text('T2 - Questão 4'), centerTitle: true),
+    );
   }
 }

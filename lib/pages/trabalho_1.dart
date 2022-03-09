@@ -44,7 +44,7 @@ class _Trabalho1State extends State<Trabalho1> {
     return Scaffold(
       appBar: AppBar(
         // backgroundColor: Colors.green[600],
-        title: const Text('Cálculo Numérico (T1 - N5)'),
+        title: const Text('T1 - Questão 5'),
         centerTitle: true,
         actions: [
           IconButton(
