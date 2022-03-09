@@ -41,203 +41,206 @@ class _Trabalho1State extends State<Trabalho1> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        // backgroundColor: Colors.green[600],
-        title: const Text('T1 - Questão 5'),
-        centerTitle: true,
-        actions: [
-          IconButton(
-              onPressed: () {
-                setState(() {
-                  funcaoController.text = 'x3-x-1';
-                  intervaloController1.text = '-5';
-                  intervaloController2.text = '5';
-                  toleranciaController.text = '0.001';
-                  manipulaEquacao();
-                });
-              },
-              icon: const Icon(Icons.refresh))
-        ],
-      ),
-      // backgroundColor: Colors.black,
-      body: NotificationListener<OverscrollIndicatorNotification>(
-        onNotification: (overScroll) {
-          overScroll.disallowIndicator();
-          return false;
-        },
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(height: 16),
-              Text(
-                _suaFuncao,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10, 12, 10, 0),
-                child: Wrap(children: [
-                  for (int i = 0; i < equacoes.length; i++) ...[
-                    Text(equacoes[i]['operacao'] ?? '', style: const TextStyle(fontSize: 32)),
-                    Text(equacoes[i]['numero'] ?? '', style: const TextStyle(fontSize: 32)),
-                    Text(equacoes[i]['x'] ?? '', style: const TextStyle(fontSize: 32)),
-                    Text(equacoes[i]['expoente'] ?? '', style: const TextStyle(fontSize: 16)),
-                  ],
-                ]),
-              ),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-                  child: Column(
-                    children: <Widget>[
-                      Row(
-                        children: [
-                          const Text('Função:'),
-                          const SizedBox(width: 20),
-                          Expanded(
-                            child: TextField(
-                              textAlign: TextAlign.center,
-                              controller: funcaoController,
-                              onChanged: (text) {
-                                if (text.length > 1 && (text[text.length - 1] == '+' || text[text.length - 1] == '-')) {
-                                  if (text[text.length - 2] == '+' || text[text.length - 2] == '-') {
-                                    funcaoController.text = text.substring(0, text.length - 2) + text.substring(text.length - 1);
-                                    FocusScope.of(context).unfocus();
-                                  }
-                                }
-                                manipulaEquacao();
-                              },
-                              inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9-+xX]'))],
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () => setState(() {
-                              funcaoController.clear();
-                              manipulaEquacao();
-                            }),
-                            tooltip: 'Apagar',
-                            icon: const Icon(
-                              Icons.clear,
-                            ),
-                            splashRadius: 12,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        children: [
-                          const Text('Tolerância:'),
-                          const SizedBox(width: 20),
-                          SizedBox(
-                            width: 127,
-                            child: TextField(
-                              textAlign: TextAlign.center,
-                              controller: toleranciaController,
-                              keyboardType: const TextInputType.numberWithOptions(),
-                              inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^[0-9]*[.]?[0-9]*'))],
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () => setState(() {
-                              toleranciaController.clear();
-                            }),
-                            tooltip: 'Apagar',
-                            icon: const Icon(Icons.clear),
-                            splashRadius: 12,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        children: [
-                          const Text('Intervalo:'),
-                          const SizedBox(width: 20),
-                          SizedBox(
-                            width: 60,
-                            child: TextField(
-                              textAlign: TextAlign.center,
-                              controller: intervaloController1,
-                              keyboardType: const TextInputType.numberWithOptions(),
-                              inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^[0-9-][0-9]*'))],
-                            ),
-                          ),
-                          const SizedBox(width: 20),
-                          SizedBox(
-                            width: 60,
-                            child: TextField(
-                              textAlign: TextAlign.center,
-                              controller: intervaloController2,
-                              keyboardType: const TextInputType.numberWithOptions(),
-                              inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^[0-9-][0-9]*'))],
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () => setState(() {
-                              intervaloController1.clear();
-                              intervaloController2.clear();
-                            }),
-                            tooltip: 'Apagar',
-                            icon: const Icon(
-                              Icons.clear,
-                            ),
-                            splashRadius: 12,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ElevatedButton(
-                            child: const Text('Falsa Posição'),
-                            onPressed: () => calcularFalsaPosicao(),
-                            style: ButtonStyle(
-                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(18.0),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 20),
-                          ElevatedButton(
-                            child: const Text('Newton'),
-                            onPressed: () => calcularNewton(),
-                            style: ButtonStyle(
-                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(18.0),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      _a > -123456789 ? Text('Passos dados: $_passos') : Container(),
-                      const SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          _a > -123456789
-                              ? _b > -123456789
-                                  ? Text('a1: $_a')
-                                  : Text('x_i: $_a')
-                              : Container(),
-                          _b > -123456789 ? const SizedBox(width: 20) : Container(),
-                          _b > -123456789 ? Text('b1: $_b') : Container(),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      _x > -123456789 ? Text('x: $_x') : Container(),
-                      const SizedBox(height: 20),
-                      _a > -123456789 ? Text('F(x): $_fx') : Container(),
-                      const SizedBox(height: 20),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        appBar: AppBar(
+          // backgroundColor: Colors.green[600],
+          title: const Text('T1 - Questão 5'),
+          centerTitle: true,
+          actions: [
+            IconButton(
+                onPressed: () {
+                  setState(() {
+                    funcaoController.text = 'x3-x-1';
+                    intervaloController1.text = '-5';
+                    intervaloController2.text = '5';
+                    toleranciaController.text = '0.001';
+                    manipulaEquacao();
+                  });
+                },
+                icon: const Icon(Icons.refresh))
+          ],
+        ),
+        // backgroundColor: Colors.black,
+        body: NotificationListener<OverscrollIndicatorNotification>(
+          onNotification: (overScroll) {
+            overScroll.disallowIndicator();
+            return false;
+          },
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 16),
+                Text(
+                  _suaFuncao,
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 12, 10, 0),
+                  child: Wrap(children: [
+                    for (int i = 0; i < equacoes.length; i++) ...[
+                      Text(equacoes[i]['operacao'] ?? '', style: const TextStyle(fontSize: 32)),
+                      Text(equacoes[i]['numero'] ?? '', style: const TextStyle(fontSize: 32)),
+                      Text(equacoes[i]['x'] ?? '', style: const TextStyle(fontSize: 32)),
+                      Text(equacoes[i]['expoente'] ?? '', style: const TextStyle(fontSize: 16)),
                     ],
+                  ]),
+                ),
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+                    child: Column(
+                      children: <Widget>[
+                        Row(
+                          children: [
+                            const Text('Função:'),
+                            const SizedBox(width: 20),
+                            Expanded(
+                              child: TextField(
+                                textAlign: TextAlign.center,
+                                controller: funcaoController,
+                                onChanged: (text) {
+                                  if (text.length > 1 && (text[text.length - 1] == '+' || text[text.length - 1] == '-')) {
+                                    if (text[text.length - 2] == '+' || text[text.length - 2] == '-') {
+                                      funcaoController.text = text.substring(0, text.length - 2) + text.substring(text.length - 1);
+                                      FocusScope.of(context).unfocus();
+                                    }
+                                  }
+                                  manipulaEquacao();
+                                },
+                                inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9-+xX]'))],
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () => setState(() {
+                                funcaoController.clear();
+                                manipulaEquacao();
+                              }),
+                              tooltip: 'Apagar',
+                              icon: const Icon(
+                                Icons.clear,
+                              ),
+                              splashRadius: 12,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          children: [
+                            const Text('Tolerância:'),
+                            const SizedBox(width: 20),
+                            SizedBox(
+                              width: 127,
+                              child: TextField(
+                                textAlign: TextAlign.center,
+                                controller: toleranciaController,
+                                keyboardType: const TextInputType.numberWithOptions(),
+                                inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^[0-9]*[.]?[0-9]*'))],
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () => setState(() {
+                                toleranciaController.clear();
+                              }),
+                              tooltip: 'Apagar',
+                              icon: const Icon(Icons.clear),
+                              splashRadius: 12,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          children: [
+                            const Text('Intervalo:'),
+                            const SizedBox(width: 20),
+                            SizedBox(
+                              width: 60,
+                              child: TextField(
+                                textAlign: TextAlign.center,
+                                controller: intervaloController1,
+                                keyboardType: const TextInputType.numberWithOptions(),
+                                inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^[0-9-][0-9]*'))],
+                              ),
+                            ),
+                            const SizedBox(width: 20),
+                            SizedBox(
+                              width: 60,
+                              child: TextField(
+                                textAlign: TextAlign.center,
+                                controller: intervaloController2,
+                                keyboardType: const TextInputType.numberWithOptions(),
+                                inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^[0-9-][0-9]*'))],
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () => setState(() {
+                                intervaloController1.clear();
+                                intervaloController2.clear();
+                              }),
+                              tooltip: 'Apagar',
+                              icon: const Icon(
+                                Icons.clear,
+                              ),
+                              splashRadius: 12,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              child: const Text('Falsa Posição'),
+                              onPressed: () => calcularFalsaPosicao(),
+                              style: ButtonStyle(
+                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 20),
+                            ElevatedButton(
+                              child: const Text('Newton'),
+                              onPressed: () => calcularNewton(),
+                              style: ButtonStyle(
+                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        _a > -123456789 ? Text('Passos dados: $_passos') : Container(),
+                        const SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            _a > -123456789
+                                ? _b > -123456789
+                                    ? Text('a1: $_a')
+                                    : Text('x_i: $_a')
+                                : Container(),
+                            _b > -123456789 ? const SizedBox(width: 20) : Container(),
+                            _b > -123456789 ? Text('b1: $_b') : Container(),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        _x > -123456789 ? Text('x: $_x') : Container(),
+                        const SizedBox(height: 20),
+                        _a > -123456789 ? Text('F(x): $_fx') : Container(),
+                        const SizedBox(height: 20),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
