@@ -141,7 +141,9 @@ class Trabalho2 extends GetView<Trabalho2Controller> {
                         ),
                       ),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          controller.simpsonClicked();
+                        },
                         child: const Text('Regra do Simpson'),
                         style: ButtonStyle(
                           shape: MaterialStateProperty.all<RoundedRectangleBorder>(

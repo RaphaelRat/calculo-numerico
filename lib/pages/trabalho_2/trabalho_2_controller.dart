@@ -37,4 +37,40 @@ class Trabalho2Controller extends GetxController {
     t = h! / 2 * soma;
     print('t: $t \t Soma: $soma');
   }
+
+  void simpsonClicked() {
+    h = (b.value - a.value) / n.value;
+    var xi = a.value;
+    var fxi = 0.0;
+    var ci = 0;
+    var ciFxi = 0.0;
+    var s = 0.0;
+    var soma = 0.0;
+
+    for (var i = 0; i <= n.value; i++) {
+      if (i == 0) {
+        ci = 1;
+      } else if (i == n.value) {
+        ci = 1;
+        xi += h!;
+      } else if (i % 2 == 0) {
+        ci = 2;
+        xi += h!;
+      } else {
+        ci = 4;
+        xi += h!;
+      }
+      fxi = 2 * xi + 1 / xi;
+      ciFxi = ci * fxi;
+      soma += ciFxi;
+      print(' i: $i\t xi: $xi\t  f(xi): $fxi\t ci: $ci\t ci*f(xi)$ciFxi');
+    }
+    s = h! / 3 * soma;
+    print('s: $s \t Soma: $soma');
+    Get.defaultDialog(
+      content: Text('Soma: ${soma.toStringAsFixed(4)}\nS(h$n): ${s.toStringAsFixed(4)}'),
+      title: 'Regra de Simpon',
+      textCancel: 'Fechar',
+    );
+  }
 }
