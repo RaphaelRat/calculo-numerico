@@ -39,8 +39,8 @@ class Trabalho2Controller extends GetxController {
         ci = 2;
         xi += h!;
       }
-      fxi = 2 * xi + 1 / xi;
-      // fxi = getResultadoFuncao(xi);
+      // fxi = 2 * xi + 1 / xi;
+      fxi = getResultadoFuncao(xi);
       ciFxi = ci * fxi;
       soma += ciFxi;
     }
@@ -80,8 +80,8 @@ class Trabalho2Controller extends GetxController {
         ci = 4;
         xi += h!;
       }
-      fxi = 2 * xi + 1 / xi;
-      // fxi = getResultadoFuncao(xi);
+      // fxi = 2 * xi + 1 / xi;
+      fxi = getResultadoFuncao(xi);
       ciFxi = ci * fxi;
       soma += ciFxi;
       // print(' i: $i\t xi: $xi\t  f(xi): $fxi\t ci: $ci\t ci*f(xi)$ciFxi');
