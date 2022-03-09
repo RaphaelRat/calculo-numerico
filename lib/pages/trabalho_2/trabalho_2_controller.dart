@@ -40,9 +40,9 @@ class Trabalho2Controller extends GetxController {
         xi += h!;
       }
       fxi = 2 * xi + 1 / xi;
+      // fxi = getResultadoFuncao(xi);
       ciFxi = ci * fxi;
       soma += ciFxi;
-      print(' i: $i\t xi: $xi\t f(xi): $fxi\t ci: $ci\t ci*f(xi)$ciFxi');
     }
     t = h! / 2 * soma;
     Get.defaultDialog(
@@ -81,12 +81,13 @@ class Trabalho2Controller extends GetxController {
         xi += h!;
       }
       fxi = 2 * xi + 1 / xi;
+      // fxi = getResultadoFuncao(xi);
       ciFxi = ci * fxi;
       soma += ciFxi;
-      print(' i: $i\t xi: $xi\t  f(xi): $fxi\t ci: $ci\t ci*f(xi)$ciFxi');
+      // print(' i: $i\t xi: $xi\t  f(xi): $fxi\t ci: $ci\t ci*f(xi)$ciFxi');
     }
     s = h! / 3 * soma;
-    print('s: $s \t Soma: $soma');
+    // print('s: $s \t Soma: $soma');
     Get.defaultDialog(
       content: Text('Soma: ${soma.toStringAsFixed(4)}\nS(h$n): ${s.toStringAsFixed(4)}'),
       title: 'Regra de Simpon',
@@ -137,12 +138,57 @@ class Trabalho2Controller extends GetxController {
       }
     }
 
-    integral.value = equacoes;
-
-    print(getResultadoFuncao(a.value));
+    integral.value = equacoes.isEmpty
+        ? [
+            {'numero': '2', 'expoente': '', 'x': 'x', 'operacao': ''},
+            {'numero': '1', 'expoente': '', 'x': '', 'operacao': '+'},
+            {'numero': '', 'expoente': '', 'x': 'x', 'operacao': '/'},
+          ]
+        : equacoes;
   }
 
-  double getResultadoFuncao(double value) {
+  double getResultadoFuncao(double i) {
+    double resultado = 0;
+    num dividendo = 0;
+    for (var j = 0; j < integral.length; j++) {
+      var valor = integral[j]['x'] == ''
+          ? (integral[j]['numero'] == '' ? 0 : int.parse(integral[j]['numero']!))
+          : (integral[j]['numero'] == '' ? 1 : int.parse(integral[j]['numero']!)) *
+              pow(i, integral[j]['expoente'] == '' ? 1 : int.parse(integral[j]['expoente']!));
+
+      if (integral.length >= j + 2 && valor != 0) {
+        if (integral[j + 1]['operacao'] == '/') {
+          if (integral[j]['operacao'] == '-') {
+            dividendo = -valor;
+          } else {
+            dividendo = valor;
+          }
+        } else if (integral[j]['operacao'] == '-') {
+          valor *= -1;
+          resultado += valor;
+        } else if (integral[j]['operacao'] == '/') {
+          valor = dividendo / valor;
+          dividendo = 0;
+          resultado += valor;
+        } else {
+          resultado += valor;
+        }
+      } else if (integral[j]['operacao'] == '-') {
+        valor *= -1;
+        resultado += valor;
+      } else if (integral[j]['operacao'] == '/') {
+        valor = dividendo / valor;
+        dividendo = 0;
+        resultado += valor != double.infinity && valor != -double.infinity ? valor : 0;
+      } else {
+        resultado += valor;
+      }
+    }
+
+    return resultado;
+  }
+
+  double getResultadoFuncao2(double value) {
     num dividendo = 0.0;
     double resultado = 0;
     for (var j = 0; j < integral.length; j++) {
@@ -164,6 +210,8 @@ class Trabalho2Controller extends GetxController {
       } else if (j < integral.length - 1) {
         if (integral[j + 1]['operacao'] == '/') {
           dividendo = valor;
+        } else {
+          resultado += valor;
         }
       } else {
         resultado += valor;
